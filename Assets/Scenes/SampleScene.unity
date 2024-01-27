@@ -379,6 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 497206670}
+  dealer: {fileID: 358941231}
 --- !u!1 &358941231
 GameObject:
   m_ObjectHideFlags: 0
