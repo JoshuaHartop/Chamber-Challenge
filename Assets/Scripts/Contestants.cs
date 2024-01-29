@@ -41,8 +41,8 @@ public class Contestants : MonoBehaviour
     {
         if (playerTurn)
         {
-            playerTurn = !playerTurn;
-            //call enemy turn
+            playerTurn = false;
+            
         }
         else
         {

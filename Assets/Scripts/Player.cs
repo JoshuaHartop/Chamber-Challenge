@@ -19,11 +19,13 @@ public class Player : Contestants
         {
             if (Input.GetMouseButtonDown(0))
             {
+                print("player shooting enemy");
                 gun.shootOther(dealer);
                
             }
             else if (Input.GetMouseButtonDown(1))
             {
+                print("player shooting self");
                 gun.shootSelf(gameObject);
             }
         }
