@@ -674,8 +674,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Chamber Challenge
-  metroPackageVersion: 
+  metroPackageName: ChamberChallenge
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -683,7 +683,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Chamber Challenge
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Chamber Challenge
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

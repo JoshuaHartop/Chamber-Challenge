@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Enemy : Contestants
@@ -23,20 +24,43 @@ public class Enemy : Contestants
         if (playerTurn == false)
         {
             print("enemy shooting");
-            enemyRNG = UnityEngine.Random.Range(1, 1000);
-            if (enemyRNG % 2 == 0)
+            if (gun.LiveBullets / gun.BulletTotal > 0.5f)
+            {
+                print("enemy shoots you");
+                gun.BulletTotal--;
+                gun.shootOther(player);
+            }
+            else if (gun.LiveBullets / gun.BulletTotal == 0.5f)
+            {
+                {
+                    enemyRNG = UnityEngine.Random.Range(1, 1000);
+                    if (enemyRNG % 2 == 0)
+                    {
+                        print("enemy shoots you");
+                        gun.BulletTotal--;
+                        gun.shootOther(player);
+
+                    }
+                    else if (enemyRNG % 2 == 1)
+                    {
+                        print("enemy shoot self");
+                        gun.BulletTotal--;
+                        gun.shootSelf(gameObject);
+
+                    }
+                }
+            }
+            else if (gun.LiveBullets / gun.BulletTotal < 0.5f)
+            {
+                print("enemy shoot self");
+                gun.BulletTotal--;
+                gun.shootSelf(gameObject);
+            }
+            else
             {
                 print("enemy shoots you");
                 gun.shootOther(player);
-
             }
-            else if (enemyRNG % 2 == 1)
-            {
-                print("enemy shoot self");
-                gun.shootSelf(gameObject);
-
-            }
-            StartCoroutine("shootWait");
         }
        
     }
