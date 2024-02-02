@@ -10,6 +10,7 @@ public class Player : Contestants
     void Start()
     {
         HP = 3;
+        gun.gunAnimation(Gun.animationNumber.PlayerGrab);
     }
 
     // Update is called once per frame
@@ -17,16 +18,18 @@ public class Player : Contestants
     {
         if (playerTurn == true)
         {
+           
             if (Input.GetMouseButtonDown(0))
             {
                 print("player shooting enemy");
-                gun.shootOther(dealer);
-               
+                StartCoroutine(gun.shootOther(dealer, gameObject));
+
             }
             else if (Input.GetMouseButtonDown(1))
             {
+                gun.gunAnimation(Gun.animationNumber.PlayerShootSelf);
                 print("player shooting self");
-                gun.shootSelf(gameObject);
+                StartCoroutine(gun.shootSelf(gameObject));
             }
         }
     }

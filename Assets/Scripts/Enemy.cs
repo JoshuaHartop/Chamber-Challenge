@@ -11,15 +11,14 @@ public class Enemy : Contestants
     void Start()
     {
         HP = 3;
-        StartCoroutine("shootWait");
     }
 
     // Update is called once per frame
     void Update()
-    { 
+    {
     }
 
-    void enemyTurn()
+    public void enemyTurn()
     {
         if (playerTurn == false)
         {
@@ -28,7 +27,7 @@ public class Enemy : Contestants
             {
                 print("enemy shoots you");
                 gun.BulletTotal--;
-                gun.shootOther(player);
+                StartCoroutine(gun.shootOther(player, gameObject));
             }
             else if (gun.LiveBullets / gun.BulletTotal == 0.5f)
             {
@@ -38,14 +37,14 @@ public class Enemy : Contestants
                     {
                         print("enemy shoots you");
                         gun.BulletTotal--;
-                        gun.shootOther(player);
+                        StartCoroutine(gun.shootOther(player, gameObject));
 
                     }
                     else if (enemyRNG % 2 == 1)
                     {
                         print("enemy shoot self");
                         gun.BulletTotal--;
-                        gun.shootSelf(gameObject);
+                        StartCoroutine(gun.shootSelf(gameObject));
 
                     }
                 }
@@ -54,24 +53,14 @@ public class Enemy : Contestants
             {
                 print("enemy shoot self");
                 gun.BulletTotal--;
-                gun.shootSelf(gameObject);
+                StartCoroutine(gun.shootSelf(gameObject));
             }
             else
             {
                 print("enemy shoots you");
-                gun.shootOther(player);
+                StartCoroutine(gun.shootOther(player, gameObject));
             }
         }
        
-    }
-
-    IEnumerator shootWait()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(3);
-            enemyTurn();
-        }
-
     }
 }

@@ -7,11 +7,21 @@ public class Gun : MonoBehaviour
 {
     private int currentBullet;
     private Contestants otherContestant;
+    private Animator animator;
     private List<bool> isBullet;
     private int defaultBullet = 0;
     private static float _LiveBullets = 0f;
     private static float _BulletTotal = 0f;
     private int blanks = 0;
+
+    public enum animationNumber
+    {
+        PlayerGrab = 0,
+        PlayerShootSelf = 1,
+        PlayerShootSelfBlank = 2,
+        PlayerShootOther = 3,
+        PlayerPutDown = 4
+    }
 
     public float BulletTotal
     {
@@ -24,10 +34,34 @@ public class Gun : MonoBehaviour
         set { _LiveBullets = value; }
     }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-       reloadGun();
-       currentBullet = 0;
+        reloadGun();
+        currentBullet = 0;
+        animator = GetComponent<Animator>();
+    }
+    public void gunAnimation(animationNumber number)
+    {
+        if (number == animationNumber.PlayerGrab) // grab
+        {
+            animator.SetTrigger("playerGrabRevolver");
+        }
+        else if (number == animationNumber.PlayerShootSelf)
+        {
+            animator.SetTrigger("playerShootSelf");
+        }
+        else if (number == animationNumber.PlayerShootSelfBlank)
+        {
+            animator.SetTrigger("playerShootSelfBlank");
+        }
+        else if (number == animationNumber.PlayerShootOther)
+        {
+            animator.SetTrigger("playerShootOther");
+        }
+        else if (number == animationNumber.PlayerPutDown)
+        {
+            animator.SetTrigger("playerPutDown");
+        }
     }
 
     // Update is called once per frame
@@ -36,13 +70,26 @@ public class Gun : MonoBehaviour
         
     }
 
-    public void shootOther(GameObject other) 
+    public IEnumerator shootOther(GameObject other, GameObject shooter) 
     {
+        yield return new WaitForSeconds(2.5f);
+        Player temporaryPlayer;
+
         otherContestant = other.GetComponent<Contestants>();
         BulletTotal--;
         //do if round is blah here
+
         if (isBullet[0] == true)
         {
+            if (shooter.TryGetComponent(out temporaryPlayer))
+            {
+                gunAnimation(animationNumber.PlayerShootOther);
+
+            }
+            else
+            {
+
+            }
             isBullet.RemoveAt(0);
             LiveBullets--;
             print("BOOM");
@@ -54,9 +101,19 @@ public class Gun : MonoBehaviour
             }
             else
             {
+                if (shooter.TryGetComponent(out temporaryPlayer))
+                {
+                    yield return new WaitForSeconds(2.5f);
+                    //gunAnimation(animationNumber.PlayerPutDown);
+
+                }
+                else
+                {
+                   
+                }
+                yield return new WaitForSeconds(2.5f);
                 otherContestant.nextTurn();
             }
-
         }
         else
         {
@@ -69,16 +126,31 @@ public class Gun : MonoBehaviour
             }
             else
             {
+                if (shooter.TryGetComponent(out temporaryPlayer))
+                {
+                    yield return new WaitForSeconds(2.5f);
+                    //gunAnimation(animationNumber.PlayerPutDown);
+
+                }
+                else
+                {
+                    yield return new WaitForSeconds(2.5f);
+                }
+                yield return new WaitForSeconds(2.5f);
                 otherContestant.nextTurn();
             }
         }
+
     }
 
-    public void shootSelf(GameObject other)
+    public IEnumerator shootSelf(GameObject self)
     {
-        otherContestant = other.GetComponent<Contestants>();
+        yield return new WaitForSeconds(2.5f);
+        Player temporaryPlayer;
+        Enemy temporaryEnemy;
+
+        otherContestant = self.GetComponent<Contestants>();
         BulletTotal--;
-        //do if round is blah here
         if (isBullet[0] == true)
         {
             isBullet.RemoveAt(0);
@@ -90,17 +162,39 @@ public class Gun : MonoBehaviour
                 reloadGun();
                 otherContestant.playerTurnForce();
             }
+            if (self.TryGetComponent(out temporaryPlayer))
+            {
+                gunAnimation(animationNumber.PlayerShootSelfBlank);
+            }
+            else
+            {
+                yield return new WaitForSeconds(2.5f);
+            }
+            yield return new WaitForSeconds(2.5f);
             otherContestant.nextTurn();
         }
         else
         {
+            if (self.TryGetComponent(out temporaryPlayer))
+            {
+                gunAnimation(animationNumber.PlayerShootSelfBlank);
+            }
+            else
+            {
+                yield return new WaitForSeconds(2.5f);
+            }
             isBullet.RemoveAt(0);
             print("Blank");
+            if (self.TryGetComponent(out temporaryEnemy))
+            {
+                temporaryEnemy.enemyTurn();
+            }
             if (isBullet.Count == 0)
             {
                 reloadGun();
                 otherContestant.playerTurnForce();
             }
+
         }
     }
 
@@ -135,4 +229,6 @@ public class Gun : MonoBehaviour
         print("loaded in " + _LiveBullets.ToString() + " bullets and " + blanks.ToString() + " blanks");
 
     }
+
+
 }
