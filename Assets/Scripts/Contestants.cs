@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Contestants : MonoBehaviour
 {
-    [SerializeField] Enemy enemy;
-    [SerializeField] protected Gun gun;
-    protected static bool playerTurn;
+    [SerializeField]
+    private Enemy _enemy;
+    [SerializeField]
+    protected Gun _gun;
+    protected static bool s_playerTurn;
     private int _hp;
+
     public int HP
     {
         get
@@ -24,9 +27,7 @@ public class Contestants : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        playerTurn = true;
-        
-
+        s_playerTurn = true;
     }
 
     // Update is called once per frame
@@ -35,30 +36,29 @@ public class Contestants : MonoBehaviour
         
     }
 
-    public void takeDamage(int dmg)
+    public void TakeDamage(int dmg)
     {
         _hp -= dmg;
     }
 
-    public void nextTurn()
+    public void NextTurn()
     {
-        if (playerTurn)
+        if (s_playerTurn)
         {
-            gun.gunAnimation(Gun.animationNumber.PlayerPutDown);
-            playerTurn = false;
-            enemy.enemyTurn();
-            
+            _gun.PlayAnimation(GunAnimationType.PlayerPutDown);
+            s_playerTurn = false;
+            _enemy.EnemyTurn();
         }
-        else if (playerTurn == false)
+        else if (s_playerTurn == false)
         {
-            playerTurn = true;
-            gun.gunAnimation(Gun.animationNumber.PlayerGrab);
+            s_playerTurn = true;
+            _gun.PlayAnimation(GunAnimationType.PlayerGrab);
         }
     }
 
-    public void playerTurnForce()
+    public void PlayerTurnForce()
     {
-        playerTurn = true;
-        gun.gunAnimation(Gun.animationNumber.PlayerGrab);
+        s_playerTurn = true;
+        _gun.PlayAnimation(GunAnimationType.PlayerGrab);
     }
 }

@@ -4,32 +4,31 @@ using UnityEngine;
 
 public class Player : Contestants
 {
-    [SerializeField] GameObject dealer; 
+    [SerializeField]
+    private GameObject _dealer; 
     
     // Start is called before the first frame update
     void Start()
     {
         HP = 3;
-        gun.gunAnimation(Gun.animationNumber.PlayerGrab);
+        _gun.PlayAnimation(GunAnimationType.PlayerGrab);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerTurn == true)
+        if (s_playerTurn == true)
         {
-           
             if (Input.GetMouseButtonDown(0))
             {
                 print("player shooting enemy");
-                StartCoroutine(gun.shootOther(dealer, gameObject));
-
+                StartCoroutine(_gun.ShootOther(_dealer, gameObject));
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                gun.gunAnimation(Gun.animationNumber.PlayerShootSelf);
+                _gun.PlayAnimation(GunAnimationType.PlayerShootSelf);
                 print("player shooting self");
-                StartCoroutine(gun.shootSelf(gameObject));
+                StartCoroutine(_gun.ShootSelf(gameObject));
             }
         }
     }

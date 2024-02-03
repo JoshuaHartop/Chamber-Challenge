@@ -3,64 +3,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GunAnimationType
+{
+    PlayerGrab,
+    PlayerShootSelf,
+    PlayerShootSelfBlank,
+    PlayerShootOther,
+    PlayerPutDown
+}
+
 public class Gun : MonoBehaviour
 {
-    private int currentBullet;
-    private Contestants otherContestant;
-    private Animator animator;
-    private List<bool> isBullet;
-    private int defaultBullet = 0;
-    private static float _LiveBullets = 0f;
-    private static float _BulletTotal = 0f;
-    private int blanks = 0;
-
-    public enum animationNumber
-    {
-        PlayerGrab = 0,
-        PlayerShootSelf = 1,
-        PlayerShootSelfBlank = 2,
-        PlayerShootOther = 3,
-        PlayerPutDown = 4
-    }
+    private int _currentBullet;
+    private Contestants _otherContestant;
+    private Animator _animator;
+    private List<bool> _isBullet;
+    private int _defaultBullet = 0;
+    private static float s_liveBullets = 0f;
+    private static float s_bulletTotal = 0f;
+    private int _blanks = 0;
 
     public float BulletTotal
     {
-        get { return _BulletTotal; }
-        set { _BulletTotal = value; }
+        get { return s_bulletTotal; }
+        set { s_bulletTotal = value; }
     }
     public float LiveBullets
     {
-        get { return _LiveBullets; }
-        set { _LiveBullets = value; }
+        get { return s_liveBullets; }
+        set { s_liveBullets = value; }
     }
+
     // Start is called before the first frame update
     void Awake()
     {
-        reloadGun();
-        currentBullet = 0;
-        animator = GetComponent<Animator>();
+        ReloadGun();
+        _currentBullet = 0;
+        _animator = GetComponent<Animator>();
     }
-    public void gunAnimation(animationNumber number)
+
+    public void PlayAnimation(GunAnimationType anim)
     {
-        if (number == animationNumber.PlayerGrab) // grab
+        switch (anim)
         {
-            animator.SetTrigger("playerGrabRevolver");
-        }
-        else if (number == animationNumber.PlayerShootSelf)
-        {
-            animator.SetTrigger("playerShootSelf");
-        }
-        else if (number == animationNumber.PlayerShootSelfBlank)
-        {
-            animator.SetTrigger("playerShootSelfBlank");
-        }
-        else if (number == animationNumber.PlayerShootOther)
-        {
-            animator.SetTrigger("playerShootOther");
-        }
-        else if (number == animationNumber.PlayerPutDown)
-        {
-            animator.SetTrigger("playerPutDown");
+            case GunAnimationType.PlayerGrab:
+                _animator.SetTrigger("playerGrabRevolver");
+                break;
+            case GunAnimationType.PlayerShootSelf:
+                _animator.SetTrigger("playerShootSelf");
+                break;
+            case GunAnimationType.PlayerShootSelfBlank:
+                _animator.SetTrigger("playerShootSelfBlank");
+                break;
+            case GunAnimationType.PlayerShootOther:
+                _animator.SetTrigger("playerShootOther");
+                break;
+            case GunAnimationType.PlayerPutDown:
+                _animator.SetTrigger("playerPutDown");
+                break;
         }
     }
 
@@ -70,165 +70,143 @@ public class Gun : MonoBehaviour
         
     }
 
-    public IEnumerator shootOther(GameObject other, GameObject shooter) 
+    public IEnumerator ShootOther(GameObject other, GameObject shooter) 
     {
         yield return new WaitForSeconds(2.5f);
-        Player temporaryPlayer;
 
-        otherContestant = other.GetComponent<Contestants>();
+        _otherContestant = other.GetComponent<Contestants>();
         BulletTotal--;
         //do if round is blah here
 
-        if (isBullet[0] == true)
+        if (_isBullet[0] == true)
         {
-            if (shooter.TryGetComponent(out temporaryPlayer))
+            if (shooter.TryGetComponent<Player>(out _))
             {
-                gunAnimation(animationNumber.PlayerShootOther);
-
+                PlayAnimation(GunAnimationType.PlayerShootOther);
             }
-            else
-            {
 
-            }
-            isBullet.RemoveAt(0);
+            _isBullet.RemoveAt(0);
             LiveBullets--;
             print("BOOM");
-            otherContestant.takeDamage(1);
-            if (isBullet.Count == 0)
+            _otherContestant.TakeDamage(1);
+            if (_isBullet.Count == 0)
             {
-                reloadGun();
-                otherContestant.playerTurnForce();
+                ReloadGun();
+                _otherContestant.PlayerTurnForce();
             }
             else
             {
-                if (shooter.TryGetComponent(out temporaryPlayer))
+                if (shooter.TryGetComponent<Player>(out _))
                 {
                     yield return new WaitForSeconds(2.5f);
-                    //gunAnimation(animationNumber.PlayerPutDown);
+                }
 
-                }
-                else
-                {
-                   
-                }
                 yield return new WaitForSeconds(2.5f);
-                otherContestant.nextTurn();
+                _otherContestant.NextTurn();
             }
         }
         else
         {
             print("Blank");
-            isBullet.RemoveAt(0);
-            if (isBullet.Count == 0)
+            _isBullet.RemoveAt(0);
+            if (_isBullet.Count == 0)
             {
-                reloadGun();
-                otherContestant.playerTurnForce();
+                ReloadGun();
+                _otherContestant.PlayerTurnForce();
             }
             else
             {
-                if (shooter.TryGetComponent(out temporaryPlayer))
-                {
-                    yield return new WaitForSeconds(2.5f);
-                    //gunAnimation(animationNumber.PlayerPutDown);
-
-                }
-                else
-                {
-                    yield return new WaitForSeconds(2.5f);
-                }
                 yield return new WaitForSeconds(2.5f);
-                otherContestant.nextTurn();
+                _otherContestant.NextTurn();
             }
         }
-
     }
 
-    public IEnumerator shootSelf(GameObject self)
+    public IEnumerator ShootSelf(GameObject self)
     {
         yield return new WaitForSeconds(2.5f);
         Player temporaryPlayer;
-        Enemy temporaryEnemy;
 
-        otherContestant = self.GetComponent<Contestants>();
+        _otherContestant = self.GetComponent<Contestants>();
         BulletTotal--;
-        if (isBullet[0] == true)
+        if (_isBullet[0] == true)
         {
-            isBullet.RemoveAt(0);
+            _isBullet.RemoveAt(0);
             LiveBullets--;
             print("BOOM");
-            otherContestant.takeDamage(1);
-            if (isBullet.Count == 0)
+            _otherContestant.TakeDamage(1);
+            if (_isBullet.Count == 0)
             {
-                reloadGun();
-                otherContestant.playerTurnForce();
+                ReloadGun();
+                _otherContestant.PlayerTurnForce();
             }
-            if (self.TryGetComponent(out temporaryPlayer))
+            if (self.TryGetComponent<Player>(out _))
             {
-                gunAnimation(animationNumber.PlayerShootSelfBlank);
+                PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
             }
             else
             {
                 yield return new WaitForSeconds(2.5f);
             }
             yield return new WaitForSeconds(2.5f);
-            otherContestant.nextTurn();
+            _otherContestant.NextTurn();
         }
         else
         {
             if (self.TryGetComponent(out temporaryPlayer))
             {
-                gunAnimation(animationNumber.PlayerShootSelfBlank);
+                PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
             }
             else
             {
                 yield return new WaitForSeconds(2.5f);
             }
-            isBullet.RemoveAt(0);
+            _isBullet.RemoveAt(0);
+
             print("Blank");
+
+            Enemy temporaryEnemy;
             if (self.TryGetComponent(out temporaryEnemy))
             {
-                temporaryEnemy.enemyTurn();
-            }
-            if (isBullet.Count == 0)
-            {
-                reloadGun();
-                otherContestant.playerTurnForce();
+                temporaryEnemy.EnemyTurn();
             }
 
+            if (_isBullet.Count == 0)
+            {
+                ReloadGun();
+                _otherContestant.PlayerTurnForce();
+            }
         }
     }
 
-    public void reloadGun()
+    public void ReloadGun()
     {
-        isBullet = new List<bool>(6);
-        defaultBullet = UnityEngine.Random.Range(0, 5);
-        _LiveBullets = 0;
-        _BulletTotal = 6;
-        blanks = 0;
+        _isBullet = new List<bool>(6);
+        _defaultBullet = UnityEngine.Random.Range(0, 5);
+        s_liveBullets = 0;
+        s_bulletTotal = 6;
+        _blanks = 0;
 
         for (int i = 0; i < 6; i++)
         {
-            currentBullet = UnityEngine.Random.Range(0, 100);
-            if (currentBullet%6 == 0)
+            _currentBullet = UnityEngine.Random.Range(0, 100);
+            if (_currentBullet%6 == 0)
             {
-                isBullet.Add(true);
-                _LiveBullets++;
+                _isBullet.Add(true);
+                s_liveBullets++;
             }
             else
             {
-                isBullet.Add(false);
-                blanks++;
+                _isBullet.Add(false);
+                _blanks++;
             }
         }
-        if (isBullet[defaultBullet] == false)
+        if (_isBullet[_defaultBullet] == false)
         {
-            _LiveBullets++;
-            blanks--;
+            s_liveBullets++;
+            _blanks--;
         }
-        isBullet[defaultBullet] = true;
-        print("loaded in " + _LiveBullets.ToString() + " bullets and " + blanks.ToString() + " blanks");
-
+        _isBullet[_defaultBullet] = true;
+        print("loaded in " + s_liveBullets.ToString() + " bullets and " + _blanks.ToString() + " blanks");
     }
-
-
 }

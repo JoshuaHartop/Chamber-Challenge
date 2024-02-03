@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class Enemy : Contestants
 {
-    [SerializeField] GameObject player;
-    private int enemyRNG = 0;
+    [SerializeField]
+    private GameObject _player;
+    private int _enemyRNG = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,49 +20,44 @@ public class Enemy : Contestants
     {
     }
 
-    public void enemyTurn()
+    public void EnemyTurn()
     {
-        if (playerTurn == false)
+        if (s_playerTurn == false)
         {
             print("enemy shooting");
-            if (gun.LiveBullets / gun.BulletTotal > 0.5f)
+            if (_gun.LiveBullets / _gun.BulletTotal > 0.5f)
             {
                 print("enemy shoots you");
-                gun.BulletTotal--;
-                StartCoroutine(gun.shootOther(player, gameObject));
+                _gun.BulletTotal--;
+                StartCoroutine(_gun.ShootOther(_player, gameObject));
             }
-            else if (gun.LiveBullets / gun.BulletTotal == 0.5f)
+            else if (_gun.LiveBullets / _gun.BulletTotal == 0.5f)
             {
+                _enemyRNG = UnityEngine.Random.Range(1, 1000);
+                if (_enemyRNG % 2 == 0)
                 {
-                    enemyRNG = UnityEngine.Random.Range(1, 1000);
-                    if (enemyRNG % 2 == 0)
-                    {
-                        print("enemy shoots you");
-                        gun.BulletTotal--;
-                        StartCoroutine(gun.shootOther(player, gameObject));
-
-                    }
-                    else if (enemyRNG % 2 == 1)
-                    {
-                        print("enemy shoot self");
-                        gun.BulletTotal--;
-                        StartCoroutine(gun.shootSelf(gameObject));
-
-                    }
+                    print("enemy shoots you");
+                    _gun.BulletTotal--;
+                    StartCoroutine(_gun.ShootOther(_player, gameObject));
+                }
+                else if (_enemyRNG % 2 == 1)
+                {
+                    print("enemy shoot self");
+                    _gun.BulletTotal--;
+                    StartCoroutine(_gun.ShootSelf(gameObject));
                 }
             }
-            else if (gun.LiveBullets / gun.BulletTotal < 0.5f)
+            else if (_gun.LiveBullets / _gun.BulletTotal < 0.5f)
             {
                 print("enemy shoot self");
-                gun.BulletTotal--;
-                StartCoroutine(gun.shootSelf(gameObject));
+                _gun.BulletTotal--;
+                StartCoroutine(_gun.ShootSelf(gameObject));
             }
             else
             {
                 print("enemy shoots you");
-                StartCoroutine(gun.shootOther(player, gameObject));
+                StartCoroutine(_gun.ShootOther(_player, gameObject));
             }
         }
-       
     }
 }
