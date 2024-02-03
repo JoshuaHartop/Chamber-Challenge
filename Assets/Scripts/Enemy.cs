@@ -7,6 +7,7 @@ public class Enemy : Contestants
 {
     [SerializeField]
     private GameObject _player;
+    
     private int _enemyRNG = 0;
 
     // Start is called before the first frame update

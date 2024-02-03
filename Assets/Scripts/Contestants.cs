@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Contestants : MonoBehaviour
 {
+    protected static bool s_playerTurn;
+
     [SerializeField]
     private Enemy _enemy;
+
     [SerializeField]
     protected Gun _gun;
-    protected static bool s_playerTurn;
+    
     private int _hp;
 
     public int HP

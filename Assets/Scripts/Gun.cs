@@ -14,13 +14,14 @@ public enum GunAnimationType
 
 public class Gun : MonoBehaviour
 {
-    private int _currentBullet;
+    private static float s_liveBullets = 0f;
+    private static float s_bulletTotal = 0f;
+
     private Contestants _otherContestant;
     private Animator _animator;
     private List<bool> _isBullet;
+    private int _currentBullet;
     private int _defaultBullet = 0;
-    private static float s_liveBullets = 0f;
-    private static float s_bulletTotal = 0f;
     private int _blanks = 0;
 
     public float BulletTotal
