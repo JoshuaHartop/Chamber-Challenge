@@ -9,7 +9,9 @@ public enum GunAnimationType
     PlayerShootSelf,
     PlayerShootSelfBlank,
     PlayerShootOther,
+    PlayerShootOtherBullet,
     PlayerPutDown
+    
 }
 
 public class Gun : MonoBehaviour
@@ -59,6 +61,9 @@ public class Gun : MonoBehaviour
             case GunAnimationType.PlayerShootOther:
                 _animator.SetTrigger("playerShootOther");
                 break;
+            case GunAnimationType.PlayerShootOtherBullet:
+                _animator.SetTrigger("playerShootOtherBullet");
+                break;
             case GunAnimationType.PlayerPutDown:
                 _animator.SetTrigger("playerPutDown");
                 break;
@@ -74,21 +79,21 @@ public class Gun : MonoBehaviour
     public IEnumerator ShootOther(GameObject other, GameObject shooter) 
     {
         yield return new WaitForSeconds(2.5f);
-
         _otherContestant = other.GetComponent<Contestants>();
         BulletTotal--;
         //do if round is blah here
 
         if (_isBullet[0] == true)
         {
+            print("BOOM");
             if (shooter.TryGetComponent<Player>(out _))
             {
-                PlayAnimation(GunAnimationType.PlayerShootOther);
+                PlayAnimation(GunAnimationType.PlayerShootOtherBullet);
+                yield return new WaitForSeconds(2.5f);
             }
 
             _isBullet.RemoveAt(0);
             LiveBullets--;
-            print("BOOM");
             _otherContestant.TakeDamage(1);
             if (_isBullet.Count == 0)
             {
@@ -99,10 +104,10 @@ public class Gun : MonoBehaviour
             {
                 if (shooter.TryGetComponent<Player>(out _))
                 {
-                    yield return new WaitForSeconds(2.5f);
+                    PlayAnimation(GunAnimationType.PlayerPutDown);
                 }
 
-                yield return new WaitForSeconds(2.5f);
+                yield return new WaitForSeconds(1f);
                 _otherContestant.NextTurn();
             }
         }
@@ -117,7 +122,13 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                yield return new WaitForSeconds(2.5f);
+                if (shooter.TryGetComponent<Player>(out _))
+                {
+                    PlayAnimation(GunAnimationType.PlayerShootOther);
+                    yield return new WaitForSeconds(2.5f);
+                    PlayAnimation(GunAnimationType.PlayerPutDown);
+                }
+                yield return new WaitForSeconds(1f);
                 _otherContestant.NextTurn();
             }
         }
@@ -143,7 +154,9 @@ public class Gun : MonoBehaviour
             }
             if (self.TryGetComponent<Player>(out _))
             {
-                PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
+                PlayAnimation(GunAnimationType.PlayerShootSelfBlank); //for when it is bullet new anim here
+                yield return new WaitForSeconds(2.5f);
+                PlayAnimation(GunAnimationType.PlayerPutDown);
             }
             else
             {

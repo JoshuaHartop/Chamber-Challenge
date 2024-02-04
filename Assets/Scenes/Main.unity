@@ -1334,9 +1334,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcc2c4a391b6f74aacc026e669c7b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 358941233}
-  gun: {fileID: 2070764836}
-  dealer: {fileID: 358941231}
+  _enemy: {fileID: 358941233}
+  _gun: {fileID: 2070764836}
+  _dealer: {fileID: 358941231}
 --- !u!1 &358941231
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,9 +1383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4022979b4e3dbfa4097f2fcf4f50ca25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 358941233}
-  gun: {fileID: 2070764836}
-  player: {fileID: 350193953}
+  _enemy: {fileID: 358941233}
+  _gun: {fileID: 2070764836}
+  _player: {fileID: 350193953}
 --- !u!1001 &360381872
 PrefabInstance:
   m_ObjectHideFlags: 0
