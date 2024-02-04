@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public enum GunAnimationType
@@ -18,6 +19,12 @@ public class Gun : MonoBehaviour
 {
     private static float s_liveBullets = 0f;
     private static float s_bulletTotal = 0f;
+
+    [SerializeField]
+    private GameObject _muzzleFlashPrefab;
+
+    [SerializeField]
+    private Transform _muzzleFlashSpawnPoint;
 
     private Contestants _otherContestant;
     private Animator _animator;
@@ -89,6 +96,8 @@ public class Gun : MonoBehaviour
             if (shooter.TryGetComponent<Player>(out _))
             {
                 PlayAnimation(GunAnimationType.PlayerShootOtherBullet);
+                SpawnMuzzleFlash();
+
                 yield return new WaitForSeconds(2.5f);
             }
 
@@ -125,6 +134,8 @@ public class Gun : MonoBehaviour
                 if (shooter.TryGetComponent<Player>(out _))
                 {
                     PlayAnimation(GunAnimationType.PlayerShootOther);
+                    SpawnMuzzleFlash();
+
                     yield return new WaitForSeconds(2.5f);
                     PlayAnimation(GunAnimationType.PlayerPutDown);
                 }
@@ -155,6 +166,8 @@ public class Gun : MonoBehaviour
             if (self.TryGetComponent<Player>(out _))
             {
                 PlayAnimation(GunAnimationType.PlayerShootSelfBlank); //for when it is bullet new anim here
+                SpawnMuzzleFlash();
+
                 yield return new WaitForSeconds(2.5f);
                 PlayAnimation(GunAnimationType.PlayerPutDown);
             }
@@ -170,6 +183,7 @@ public class Gun : MonoBehaviour
             if (self.TryGetComponent(out temporaryPlayer))
             {
                 PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
+                SpawnMuzzleFlash();
             }
             else
             {
@@ -222,5 +236,13 @@ public class Gun : MonoBehaviour
         }
         _isBullet[_defaultBullet] = true;
         print("loaded in " + s_liveBullets.ToString() + " bullets and " + _blanks.ToString() + " blanks");
+    }
+
+    /// <summary>
+    /// Spawns a muzzle flash object
+    /// </summary>
+    private void SpawnMuzzleFlash()
+    {
+        GameObject _ = Instantiate(_muzzleFlashPrefab, _muzzleFlashSpawnPoint.transform.position, transform.rotation, transform);
     }
 }
