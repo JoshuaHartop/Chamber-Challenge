@@ -50,6 +50,7 @@ public class Contestants : MonoBehaviour
         {
             s_playerTurn = false;
             
+            _gun.PlayAnimation(GunAnimationType.EnemyGrab);
             _enemy.EnemyTurn();
         }
         else if (s_playerTurn == false)

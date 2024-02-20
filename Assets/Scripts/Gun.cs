@@ -11,7 +11,13 @@ public enum GunAnimationType
     PlayerShootSelfBlank,
     PlayerShootOther,
     PlayerShootOtherBullet,
-    PlayerPutDown
+    PlayerPutDown,
+    EnemyGrab,
+    EnemyShootSelf,
+    EnemyShootSelfBlank,
+    EnemyShootOther,
+    EnemyShootOtherBullet,
+    EnemyPutDown
     
 }
 
@@ -69,10 +75,28 @@ public class Gun : MonoBehaviour
                 _animator.SetTrigger("playerShootOther");
                 break;
             case GunAnimationType.PlayerShootOtherBullet:
-                _animator.SetTrigger("playerShootOtherBullet");
+                _animator.SetTrigger("playerShootOther"); // Should this be playerShootOtherBullet or not? No such animation exists...
                 break;
             case GunAnimationType.PlayerPutDown:
                 _animator.SetTrigger("playerPutDown");
+                break;
+            case GunAnimationType.EnemyGrab:
+                _animator.SetTrigger("enemyGrabRevolver");
+                break;
+            case GunAnimationType.EnemyShootSelf:
+                _animator.SetTrigger("enemyShootSelf");
+                break;
+            case GunAnimationType.EnemyShootSelfBlank:
+                _animator.SetTrigger("enemyShootSelfBlank");
+                break;
+            case GunAnimationType.EnemyShootOther:
+                _animator.SetTrigger("enemyShootOther");
+                break;
+            case GunAnimationType.EnemyShootOtherBullet:
+                _animator.SetTrigger("enemyShootOther"); // Should this be enemyShootOtherBullet or not? No such animation exists...
+                break;
+            case GunAnimationType.EnemyPutDown:
+                _animator.SetTrigger("enemyPutDown");
                 break;
         }
     }
@@ -100,6 +124,13 @@ public class Gun : MonoBehaviour
 
                 yield return new WaitForSeconds(2.5f);
             }
+            else
+            {
+                PlayAnimation(GunAnimationType.EnemyShootOtherBullet);
+                SpawnMuzzleFlash();
+
+                yield return new WaitForSeconds(2.5f);
+            }
 
             _isBullet.RemoveAt(0);
             LiveBullets--;
@@ -114,6 +145,10 @@ public class Gun : MonoBehaviour
                 if (shooter.TryGetComponent<Player>(out _))
                 {
                     PlayAnimation(GunAnimationType.PlayerPutDown);
+                }
+                else
+                {
+                    PlayAnimation(GunAnimationType.EnemyPutDown);
                 }
 
                 yield return new WaitForSeconds(1f);
@@ -139,6 +174,15 @@ public class Gun : MonoBehaviour
                     yield return new WaitForSeconds(2.5f);
                     PlayAnimation(GunAnimationType.PlayerPutDown);
                 }
+                else
+                {
+                    PlayAnimation(GunAnimationType.EnemyShootOther);
+                    SpawnMuzzleFlash();
+
+                    yield return new WaitForSeconds(2.5f);
+                    PlayAnimation(GunAnimationType.EnemyPutDown);
+                }
+
                 yield return new WaitForSeconds(1f);
                 _otherContestant.NextTurn();
             }
@@ -148,7 +192,6 @@ public class Gun : MonoBehaviour
     public IEnumerator ShootSelf(GameObject self)
     {
         yield return new WaitForSeconds(2.5f);
-        Player temporaryPlayer;
 
         _otherContestant = self.GetComponent<Contestants>();
         BulletTotal--;
@@ -173,21 +216,26 @@ public class Gun : MonoBehaviour
             }
             else
             {
+                PlayAnimation(GunAnimationType.EnemyShootSelfBlank);
+                SpawnMuzzleFlash();
+
                 yield return new WaitForSeconds(2.5f);
+                PlayAnimation(GunAnimationType.EnemyPutDown);
             }
             yield return new WaitForSeconds(2.5f);
             _otherContestant.NextTurn();
         }
         else
         {
-            if (self.TryGetComponent(out temporaryPlayer))
+            if (self.TryGetComponent<Player>(out _))
             {
                 PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
                 SpawnMuzzleFlash();
             }
             else
             {
-                yield return new WaitForSeconds(2.5f);
+                PlayAnimation(GunAnimationType.EnemyShootSelfBlank);
+                SpawnMuzzleFlash();
             }
             _isBullet.RemoveAt(0);
 

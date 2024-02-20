@@ -29,7 +29,12 @@ public class Enemy : Contestants
             if (_gun.LiveBullets / _gun.BulletTotal > 0.5f)
             {
                 print("enemy shoots you");
+
                 _gun.BulletTotal--;
+
+                // I don't know if this is supposed to be a blank or not
+                _gun.PlayAnimation(GunAnimationType.EnemyShootOtherBullet);
+                
                 StartCoroutine(_gun.ShootOther(_player, gameObject));
             }
             else if (_gun.LiveBullets / _gun.BulletTotal == 0.5f)
@@ -38,12 +43,14 @@ public class Enemy : Contestants
                 if (_enemyRNG % 2 == 0)
                 {
                     print("enemy shoots you");
+
                     _gun.BulletTotal--;
                     StartCoroutine(_gun.ShootOther(_player, gameObject));
                 }
                 else if (_enemyRNG % 2 == 1)
                 {
                     print("enemy shoot self");
+
                     _gun.BulletTotal--;
                     StartCoroutine(_gun.ShootSelf(gameObject));
                 }

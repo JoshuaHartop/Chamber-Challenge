@@ -4817,12 +4817,20 @@ PrefabInstance:
       value: Revolver
       objectReference: {fileID: 0}
     - target: {fileID: 2044819304125172939, guid: e7f37dc198f341045a2864243c236f35, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.20000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044819304125172939, guid: e7f37dc198f341045a2864243c236f35, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.20000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044819304125172939, guid: e7f37dc198f341045a2864243c236f35, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.598
       objectReference: {fileID: 0}
     - target: {fileID: 2044819304125172939, guid: e7f37dc198f341045a2864243c236f35, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.03
+      value: 1.0299997
       objectReference: {fileID: 0}
     - target: {fileID: 2044819304125172939, guid: e7f37dc198f341045a2864243c236f35, type: 3}
       propertyPath: m_LocalPosition.z
