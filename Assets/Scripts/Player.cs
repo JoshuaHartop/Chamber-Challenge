@@ -17,7 +17,7 @@ public class Player : Contestants
     // Update is called once per frame
     void Update()
     {
-        if (s_playerTurn == true)
+        if (s_playerTurn == true && !CursorManager.CursorEnabled)
         {
             if (Input.GetMouseButtonDown(0))
             {
