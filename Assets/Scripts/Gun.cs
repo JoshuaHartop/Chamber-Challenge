@@ -169,7 +169,7 @@ public class Gun : MonoBehaviour
                 if (shooter.TryGetComponent<Player>(out _))
                 {
                     PlayAnimation(GunAnimationType.PlayerShootOther);
-                    SpawnMuzzleFlash();
+                    
 
                     yield return new WaitForSeconds(2.5f);
                     PlayAnimation(GunAnimationType.PlayerPutDown);
@@ -177,7 +177,7 @@ public class Gun : MonoBehaviour
                 else
                 {
                     PlayAnimation(GunAnimationType.EnemyShootOther);
-                    SpawnMuzzleFlash();
+                    
 
                     yield return new WaitForSeconds(2.5f);
                     PlayAnimation(GunAnimationType.EnemyPutDown);
@@ -230,12 +230,12 @@ public class Gun : MonoBehaviour
             if (self.TryGetComponent<Player>(out _))
             {
                 PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
-                SpawnMuzzleFlash();
+                
             }
             else
             {
                 PlayAnimation(GunAnimationType.EnemyShootSelfBlank);
-                SpawnMuzzleFlash();
+                
             }
             _isBullet.RemoveAt(0);
 
