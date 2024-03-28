@@ -23,6 +23,7 @@ public class Enemy : Contestants
 
     public void EnemyTurn()
     {
+        shotsFired = 1;
         if (s_playerTurn == false)
         {
             print("enemy shooting");

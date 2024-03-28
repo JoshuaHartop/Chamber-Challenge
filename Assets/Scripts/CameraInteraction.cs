@@ -38,7 +38,7 @@ public class CameraInteraction : MonoBehaviour
 
             if (IsPlayerLookingAtInteracatible)
             {
-                if (Input.GetButtonDown("Interact"))
+                if (Input.GetButtonDown("Interact") && Contestants.s_playerTurn == true)
                 {
                     interactible.OnInteract();
                 }

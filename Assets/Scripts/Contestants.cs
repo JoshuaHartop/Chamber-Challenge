@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Contestants : MonoBehaviour
 {
-    protected static bool s_playerTurn;
+    public static bool s_playerTurn = true;
+    public static int shotsFired;
+    public itemSpawning item;
+    
 
     [SerializeField]
     private Enemy _enemy;
@@ -31,6 +34,8 @@ public class Contestants : MonoBehaviour
     void Awake()
     {
         s_playerTurn = true;
+        shotsFired = 1;
+        
     }
 
     // Update is called once per frame
@@ -46,6 +51,7 @@ public class Contestants : MonoBehaviour
 
     public void NextTurn()
     {
+        shotsFired = 1;
         if (s_playerTurn)
         {
             s_playerTurn = false;
@@ -57,13 +63,17 @@ public class Contestants : MonoBehaviour
         {
             _gun.PlayAnimation(GunAnimationType.PlayerGrab);
             s_playerTurn = true;
-           
+            shotsFired = 1;
+            item.spawnItem();
+
         }
     }
 
     public void PlayerTurnForce()
     {
+        shotsFired = 1;
         s_playerTurn = true;
         _gun.PlayAnimation(GunAnimationType.PlayerGrab);
+        item.spawnItem();
     }
 }

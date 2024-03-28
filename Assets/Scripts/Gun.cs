@@ -38,6 +38,7 @@ public class Gun : MonoBehaviour
     private int _currentBullet;
     private int _defaultBullet = 0;
     private int _blanks = 0;
+    public int bulletDamage;
 
     public float BulletTotal
     {
@@ -56,6 +57,7 @@ public class Gun : MonoBehaviour
         ReloadGun();
         _currentBullet = 0;
         _animator = GetComponent<Animator>();
+        bulletDamage = 1;
     }
 
     public void PlayAnimation(GunAnimationType anim)
@@ -134,7 +136,7 @@ public class Gun : MonoBehaviour
 
             _isBullet.RemoveAt(0);
             LiveBullets--;
-            _otherContestant.TakeDamage(1);
+            _otherContestant.TakeDamage(bulletDamage);
             if (_isBullet.Count == 0)
             {
                 ReloadGun();
@@ -187,6 +189,7 @@ public class Gun : MonoBehaviour
                 _otherContestant.NextTurn();
             }
         }
+        bulletDamage = 1;
     }
 
     public IEnumerator ShootSelf(GameObject self)
@@ -200,7 +203,7 @@ public class Gun : MonoBehaviour
             _isBullet.RemoveAt(0);
             LiveBullets--;
             print("BOOM");
-            _otherContestant.TakeDamage(1);
+            _otherContestant.TakeDamage(bulletDamage);
             if (_isBullet.Count == 0)
             {
                 ReloadGun();
@@ -231,6 +234,7 @@ public class Gun : MonoBehaviour
             {
                 PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
                 
+
             }
             else
             {
@@ -238,21 +242,26 @@ public class Gun : MonoBehaviour
                 
             }
             _isBullet.RemoveAt(0);
-
-            print("Blank");
-
             Enemy temporaryEnemy;
+            print("Blank");
+            if (_isBullet.Count == 0)
+            {
+                if (self.TryGetComponent(out temporaryEnemy)) {
+                    PlayAnimation(GunAnimationType.EnemyPutDown);
+                }
+                ReloadGun();
+                _otherContestant.PlayerTurnForce();
+            }
+
+            
             if (self.TryGetComponent(out temporaryEnemy))
             {
                 temporaryEnemy.EnemyTurn();
             }
 
-            if (_isBullet.Count == 0)
-            {
-                ReloadGun();
-                _otherContestant.PlayerTurnForce();
-            }
+
         }
+        bulletDamage = 1;
     }
 
     public void ReloadGun()

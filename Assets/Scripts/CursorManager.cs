@@ -11,16 +11,16 @@ public class CursorManager : MonoBehaviour
         {
             _cursorEnabled = value;
 
-            // if (_cursorEnabled)
-            // {
-            //     Cursor.lockState = CursorLockMode.None;
-            //     Cursor.visible = true;
-            // }
-            // else
-            // {
-            //     Cursor.lockState = CursorLockMode.Locked;
-            //     Cursor.visible = false;
-            // }
+             if (_cursorEnabled)
+             {
+                Cursor.lockState = CursorLockMode.None;
+                 Cursor.visible = true;
+             }
+             else
+             {
+                 Cursor.lockState = CursorLockMode.Locked;
+                 Cursor.visible = false;
+            }
         }
     }
 
