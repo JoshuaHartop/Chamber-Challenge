@@ -7,13 +7,9 @@ public class Item : MonoBehaviour, IInteractible
     public int slot;
     public itemSpawning spawner;
 
-    public void Start()
-    {
-        
-    }
 
     public virtual void OnInteract() { }
-    public void AssignSlot (int slott)
+    public void AssignSlot(int slott)
     {
         slot = slott;
     }
@@ -26,4 +22,3 @@ public class Item : MonoBehaviour, IInteractible
     }
 
 }
-

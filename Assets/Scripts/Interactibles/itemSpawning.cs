@@ -38,7 +38,7 @@ public class itemSpawning : MonoBehaviour
         {
 
 
-            if (playerItemObjects.Length == 4) // checks if all squares are occupied for the player
+            if (playerItemObjects.Length >= 4) // checks if all squares are occupied for the player
             {
 
             }
@@ -52,7 +52,7 @@ public class itemSpawning : MonoBehaviour
                     itemSpawnIndex = Random.Range(0, spawnPointsPlayer.Length - 1);
                 }
                 Vector3 position = spawnPointsPlayer[itemSpawnIndex].spawnTransform.position; // sets the position variable to the current item being spawned
-               // position.y += 0.12f; // moves the item to above the spawnpad
+                position.y += 0.12f; // moves the item to above the spawnpad
 
                 var item = Instantiate(itemArray[itemIndex], position, itemArray[itemIndex].transform.rotation); // instantiates the spawned item
                 item.gameObject.tag = "PlayerItem"; // sets the items tag
@@ -66,7 +66,9 @@ public class itemSpawning : MonoBehaviour
         {
             for (int j = 0; j < spawnPointsPlayer.Length; j++)
             {
-                if (playerItemObjects[i].transform.position == spawnPointsPlayer[j].spawnTransform.position)
+                Vector3 pos = spawnPointsPlayer[j].spawnTransform.position;
+                pos.y += 0.12f;
+                if (playerItemObjects[i].transform.position == pos)
                 {
                     spawnPointsPlayer[j].isOccupied = true;
                 }
