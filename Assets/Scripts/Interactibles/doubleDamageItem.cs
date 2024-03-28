@@ -12,10 +12,6 @@ public class doubleDamageItem : Item
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public override void OnInteract()
     {
         gun.bulletDamage = 2;

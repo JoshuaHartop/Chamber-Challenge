@@ -14,10 +14,18 @@ public class Item : MonoBehaviour, IInteractible
         slot = slott;
     }
 
+    public void Update()
+    {
+        if (spawner == null)
+        {
+            spawner = GameObject.FindAnyObjectByType<itemSpawning>();
+        }
+        
+    }
+
 
     void OnDestroy()
-    {
-        spawner = GameObject.FindAnyObjectByType<itemSpawning>();
+    { 
         spawner.OnItemUsed(slot);
     }
 
