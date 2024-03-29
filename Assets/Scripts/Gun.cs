@@ -103,12 +103,6 @@ public class Gun : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public IEnumerator ShootOther(GameObject other, GameObject shooter) 
     {
         yield return new WaitForSeconds(2.5f);
@@ -171,7 +165,6 @@ public class Gun : MonoBehaviour
                 if (shooter.TryGetComponent<Player>(out _))
                 {
                     PlayAnimation(GunAnimationType.PlayerShootOther);
-                    
 
                     yield return new WaitForSeconds(2.5f);
                     PlayAnimation(GunAnimationType.PlayerPutDown);
@@ -179,7 +172,6 @@ public class Gun : MonoBehaviour
                 else
                 {
                     PlayAnimation(GunAnimationType.EnemyShootOther);
-                    
 
                     yield return new WaitForSeconds(2.5f);
                     PlayAnimation(GunAnimationType.EnemyPutDown);
@@ -233,34 +225,32 @@ public class Gun : MonoBehaviour
             if (self.TryGetComponent<Player>(out _))
             {
                 PlayAnimation(GunAnimationType.PlayerShootSelfBlank);
-                
-
             }
             else
             {
                 PlayAnimation(GunAnimationType.EnemyShootSelfBlank);
-                
             }
+
             _isBullet.RemoveAt(0);
             Enemy temporaryEnemy;
             print("Blank");
+
             if (_isBullet.Count == 0)
             {
                 if (self.TryGetComponent(out temporaryEnemy)) {
                     PlayAnimation(GunAnimationType.EnemyPutDown);
                 }
+
                 ReloadGun();
                 _otherContestant.PlayerTurnForce();
             }
 
-            
             if (self.TryGetComponent(out temporaryEnemy))
             {
                 temporaryEnemy.EnemyTurn();
             }
-
-
         }
+
         bulletDamage = 1;
     }
 
@@ -286,11 +276,13 @@ public class Gun : MonoBehaviour
                 _blanks++;
             }
         }
+
         if (_isBullet[_defaultBullet] == false)
         {
             s_liveBullets++;
             _blanks--;
         }
+
         _isBullet[_defaultBullet] = true;
         print("loaded in " + s_liveBullets.ToString() + " bullets and " + _blanks.ToString() + " blanks");
     }

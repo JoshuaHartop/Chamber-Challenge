@@ -6,15 +6,15 @@ public class Contestants : MonoBehaviour
 {
     public static bool s_playerTurn = true;
     public static int shotsFired;
-    public itemSpawning item;
-    
+
+    public ItemSpawner item;
 
     [SerializeField]
     private Enemy _enemy;
 
     [SerializeField]
     protected Gun _gun;
-    
+
     private int _hp;
 
     public int HP
@@ -30,18 +30,10 @@ public class Contestants : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
         s_playerTurn = true;
         shotsFired = 1;
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void TakeDamage(int dmg)
@@ -52,20 +44,20 @@ public class Contestants : MonoBehaviour
     public void NextTurn()
     {
         shotsFired = 1;
+
         if (s_playerTurn)
         {
             s_playerTurn = false;
-            
+
             _gun.PlayAnimation(GunAnimationType.EnemyGrab);
             _enemy.EnemyTurn();
         }
-        else if (s_playerTurn == false)
+        else
         {
             _gun.PlayAnimation(GunAnimationType.PlayerGrab);
             s_playerTurn = true;
             shotsFired = 1;
-            item.spawnItem();
-
+            item.SpawnItem();
         }
     }
 
@@ -74,6 +66,6 @@ public class Contestants : MonoBehaviour
         shotsFired = 1;
         s_playerTurn = true;
         _gun.PlayAnimation(GunAnimationType.PlayerGrab);
-        item.spawnItem();
+        item.SpawnItem();
     }
 }

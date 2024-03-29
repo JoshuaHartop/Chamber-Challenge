@@ -21,13 +21,6 @@ public class CameraInteraction : MonoBehaviour
         }
     }
 
-    private Camera _camera;
-
-    private void Awake()
-    {
-        _camera = GetComponent<Camera>();
-    }
-
     private void FixedUpdate()
     {
         RaycastHit hitInfo;

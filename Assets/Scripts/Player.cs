@@ -6,15 +6,14 @@ public class Player : Contestants
 {
     [SerializeField]
     private GameObject _dealer;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         HP = 3;
         _gun.PlayAnimation(GunAnimationType.PlayerGrab);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (s_playerTurn == true && !CursorManager.CursorEnabled)
         {

@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class doubleDamageItem : Item
+public class DoubleDamageItem : Item
 {
-    [SerializeField] private Gun gun;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Gun _gun;
+
+    protected override void Start()
     {
-        gun = GameObject.FindObjectOfType<Gun>();
+        base.Start();
+
+        _gun = FindObjectOfType<Gun>();
     }
 
-    // Update is called once per frame
     public override void OnInteract()
     {
-        gun.bulletDamage = 2;
+        _gun.bulletDamage = 2;
         Destroy(gameObject);
     }
 }

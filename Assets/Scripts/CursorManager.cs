@@ -7,19 +7,20 @@ public class CursorManager : MonoBehaviour
     public static bool CursorEnabled
     {
         get { return _cursorEnabled; }
+
         private set
         {
             _cursorEnabled = value;
 
-             if (_cursorEnabled)
-             {
+            if (_cursorEnabled)
+            {
                 Cursor.lockState = CursorLockMode.None;
-                 Cursor.visible = true;
-             }
-             else
-             {
-                 Cursor.lockState = CursorLockMode.Locked;
-                 Cursor.visible = false;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
     }
@@ -28,11 +29,6 @@ public class CursorManager : MonoBehaviour
 
     [SerializeField]
     private bool _disableCursorOnAwake = true;
-
-    private void Awake()
-    {
-
-    }
 
     private void Update()
     {

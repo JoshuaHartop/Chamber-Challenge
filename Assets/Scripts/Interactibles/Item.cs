@@ -5,28 +5,20 @@ using UnityEngine;
 public class Item : MonoBehaviour, IInteractible
 {
     public int slot;
-    public itemSpawning spawner;
 
+    private ItemSpawner _spawner;
 
-    public virtual void OnInteract() { }
-    public void AssignSlot(int slott)
+    protected virtual void Start()
     {
-        slot = slott;
+        _spawner = FindAnyObjectByType<ItemSpawner>();
+        Debug.Log(_spawner);
     }
 
-    public void Update()
-    {
-        if (spawner == null)
-        {
-            spawner = GameObject.FindAnyObjectByType<itemSpawning>();
-        }
-        
-    }
-
+    public virtual void OnInteract() {}
 
     void OnDestroy()
     { 
-        spawner.OnItemUsed(slot);
+        _spawner.OnItemUsed(slot);
     }
 
 }

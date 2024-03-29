@@ -10,15 +10,9 @@ public class Enemy : Contestants
     
     private int _enemyRNG = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         HP = 3;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     public void EnemyTurn()
@@ -35,12 +29,12 @@ public class Enemy : Contestants
 
                 // I don't know if this is supposed to be a blank or not
                 _gun.PlayAnimation(GunAnimationType.EnemyShootOtherBullet);
-                
+
                 StartCoroutine(_gun.ShootOther(_player, gameObject));
             }
             else if (_gun.LiveBullets / _gun.BulletTotal == 0.5f)
             {
-                _enemyRNG = UnityEngine.Random.Range(1, 1000);
+                _enemyRNG = Random.Range(1, 1000);
                 if (_enemyRNG % 2 == 0)
                 {
                     print("enemy shoots you");
