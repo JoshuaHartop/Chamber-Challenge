@@ -11,40 +11,42 @@ public struct SpawnPoints
 
 public class ItemSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] itemArray;
 
     [SerializeField]
-    private SpawnPoints[] playerSpawns;
+    private List<GameObject> itemArray = new List<GameObject>();
 
     [SerializeField]
-    private SpawnPoints[] enemySpawns;
+    private List<SpawnPoints> playerSpawns = new List<SpawnPoints>();
 
-    private GameObject[] playerItemObjects;
+    [SerializeField]
+    private List<SpawnPoints> enemySpawns = new List<SpawnPoints>();
+
+    private List<GameObject> playerItemObjects = new List<GameObject>();
 
     private void Start()
     {
-        playerItemObjects = GameObject.FindGameObjectsWithTag("PlayerItem");
+        playerItemObjects.AddRange(GameObject.FindGameObjectsWithTag("PlayerItem"));
     }
 
     public void SpawnItem()
     {
         if (Contestants.s_playerTurn)
         {
-            if (playerItemObjects.Length < 4)
+            if (playerItemObjects.Count < 4)
             {
                 // Find a randomly selected non-occupied item spawn-point
                 // Best-case scenario of O(1) and a worst-case of O(infinity) lmao
                 // This is amazing - don't remove ever
-                int itemSpawnIndex = Random.Range(0, playerSpawns.Length - 1);
+                int itemSpawnIndex = Random.Range(0, playerSpawns.Count - 1);
 
                 while (playerSpawns[itemSpawnIndex].isOccupied)
                 {
-                    itemSpawnIndex = Random.Range(0, playerSpawns.Length - 1);
+                    playerSpawns.RemoveAt(itemSpawnIndex);
+                    itemSpawnIndex = Random.Range(0, playerSpawns.Count - 1);
                 }
 
                 // Unoccupied spawn-point found - spawn a random item in it
-                int itemIndex = Random.Range(0, itemArray.Length - 1);
+                int itemIndex = Random.Range(0, itemArray.Count - 1);
 
                 GameObject itemPrefab = itemArray[itemIndex];
                 Mesh itemPrefabMesh = itemPrefab.GetComponent<MeshFilter>().sharedMesh;
@@ -66,17 +68,18 @@ public class ItemSpawner : MonoBehaviour
                 );
 
                 item.GetComponent<Item>().slot = itemSpawnIndex;
-                playerSpawns[itemSpawnIndex].isOccupied = true;
+                playerSpawns[itemSpawnIndex] = new SpawnPoints { isOccupied = true, spawnTransform = playerSpawns[itemSpawnIndex].spawnTransform };
+
 
                 item.gameObject.tag = "PlayerItem";
             }
         }
 
-        playerItemObjects = GameObject.FindGameObjectsWithTag("PlayerItem");
+        playerItemObjects.AddRange(GameObject.FindGameObjectsWithTag("PlayerItem"));
     }
 
     public void OnItemUsed(int slot)
     {
-        playerSpawns[slot].isOccupied = false;
+        playerSpawns[slot] = new SpawnPoints { isOccupied = true, spawnTransform = playerSpawns[slot].spawnTransform };
     }
 }

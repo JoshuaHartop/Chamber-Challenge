@@ -27,9 +27,6 @@ public class CursorManager : MonoBehaviour
 
     private static bool _cursorEnabled = true;
 
-    [SerializeField]
-    private bool _disableCursorOnAwake = true;
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
