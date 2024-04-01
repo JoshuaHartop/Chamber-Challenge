@@ -13,6 +13,12 @@ public class CameraLook : MonoBehaviour
     [SerializeField]
     private float _maxHeadAngle = 90f;
 
+    [SerializeField]
+    private float _minHorizontalAngle = -90f;
+
+    [SerializeField]
+    private float _maxHorizontalAngle = 90f;
+
     private Vector3 _rotation;
 
     [SerializeField]
@@ -62,6 +68,7 @@ public class CameraLook : MonoBehaviour
         _rotation.x = Mathf.Clamp(_rotation.x, _minHeadAngle, _maxHeadAngle);
 
         _rotation.y += _mouseInputAxis.x;
+        _rotation.y = Mathf.Clamp(_rotation.y, _minHorizontalAngle, _maxHorizontalAngle);
 
         // Apply updated rotation to body and head independently
         _bodyObject.rotation = Quaternion.Euler(_bodyObject.eulerAngles.x, _rotation.y, _bodyObject.eulerAngles.z);

@@ -37,5 +37,9 @@ public class CameraInteraction : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            IsPlayerLookingAtInteracatible = false;
+        }
     }
 }

@@ -51,6 +51,7 @@ public class Contestants : MonoBehaviour
 
             _gun.PlayAnimation(GunAnimationType.EnemyGrab);
             _enemy.EnemyTurn();
+            item.SpawnItem();
         }
         else
         {
