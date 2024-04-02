@@ -2878,9 +2878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemArray:
-  - {fileID: 3615541591054996732, guid: 5496734c00c017b4286dc4c1d84e24e4, type: 3}
-  - {fileID: 5085675834846970940, guid: d4930d8b1194f4948bb82decb7a838fe, type: 3}
-  - {fileID: 149952685621734162, guid: ab1e13c12c0e981449cdcec8d24d4066, type: 3}
+  - {fileID: 4400293862817561789, guid: baaa425331ee20342a9350a73e3a08bc, type: 3}
   playerSpawns:
   - spawnTransform: {fileID: 1958619723}
     isOccupied: 0
