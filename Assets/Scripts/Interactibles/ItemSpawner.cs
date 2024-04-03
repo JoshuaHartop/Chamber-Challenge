@@ -63,6 +63,9 @@ public class ItemSpawner : MonoBehaviour
                 // we can use it to position the item object directly on top
                 spawnPosition.y += itemSpawnPlateMesh.bounds.extents.y * itemSpawnTransform.localScale.y;
 
+                // Ensures the prefab position is maintained as an offset
+                spawnPosition += itemPrefab.transform.position;
+
                 GameObject item = Instantiate(
                     itemPrefab,
                     spawnPosition,
@@ -114,6 +117,9 @@ public class ItemSpawner : MonoBehaviour
             // Calculates where the top surface of the spawn mesh is in world-space so
             // we can use it to position the item object directly on top
             spawnPosition.y += itemSpawnPlateMesh.bounds.extents.y * itemSpawnTransform.localScale.y;
+
+            // Ensures the prefab position is maintained as an offset
+            spawnPosition += itemPrefab.transform.position;
 
             GameObject item = Instantiate(
                 itemPrefab,
