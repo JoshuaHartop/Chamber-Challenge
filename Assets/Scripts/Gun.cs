@@ -294,4 +294,21 @@ public class Gun : MonoBehaviour
     {
         GameObject _ = Instantiate(_muzzleFlashPrefab, _muzzleFlashSpawnPoint.transform.position, transform.rotation, transform);
     }
+
+    /// <summary>
+    /// Returns the index of the currently chamebered bullet.
+    /// </summary>
+    public int GetCurrentBullet()
+    {
+        return _currentBullet;
+    }
+
+    /// <summary>
+    /// Returns an array of the chamber statuses where true indicates
+    /// a live round and false indicates a blank.
+    /// </summary>
+    public bool[] GetChamber()
+    {
+        return _isBullet.ToArray();
+    }
 }

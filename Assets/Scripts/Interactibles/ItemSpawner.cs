@@ -39,18 +39,22 @@ public class ItemSpawner : MonoBehaviour
                 // Find a randomly selected non-occupied item spawn-point
                 // Best-case scenario of O(1) and a worst-case of O(infinity) lmao
                 // This is amazing - don't remove ever
-                int itemSpawnIndex = Random.Range(0, playerSpawns.Count - 1);
+                int itemSpawnIndex = UnstupidRandom.Range(0, playerSpawns.Count - 1);
 
                 while (playerSpawns[itemSpawnIndex].isOccupied)
                 {
                     playerSpawns.RemoveAt(itemSpawnIndex);
-                    itemSpawnIndex = Random.Range(0, playerSpawns.Count - 1);
+                    itemSpawnIndex = UnstupidRandom.Range(0, playerSpawns.Count - 1);
                 }
 
                 // Unoccupied spawn-point found - spawn a random item in it
-                int itemIndex = Random.Range(0, itemArray.Count - 1);
+                Debug.Log("Count " + itemArray.Count);
+                int itemIndex = UnstupidRandom.Range(0, itemArray.Count - 1);
 
                 GameObject itemPrefab = itemArray[itemIndex];
+
+                Debug.Log(itemIndex);
+
                 Mesh itemPrefabMesh = itemPrefab.GetComponent<MeshFilter>().sharedMesh;
 
                 Vector3 spawnPosition = playerSpawns[itemSpawnIndex].spawnTransform.position;
@@ -94,18 +98,22 @@ public class ItemSpawner : MonoBehaviour
             // Find a randomly selected non-occupied item spawn-point
             // Best-case scenario of O(1) and a worst-case of O(infinity) lmao
             // This is amazing - don't remove ever
-            int itemSpawnIndex = Random.Range(0, enemySpawns.Count - 1);
+            int itemSpawnIndex = UnstupidRandom.Range(0, enemySpawns.Count - 1);
 
             while (enemySpawns[itemSpawnIndex].isOccupied)
             {
                 enemySpawns.RemoveAt(itemSpawnIndex);
-                itemSpawnIndex = Random.Range(0, enemySpawns.Count - 1);
+                itemSpawnIndex = UnstupidRandom.Range(0, enemySpawns.Count - 1);
             }
 
             // Unoccupied spawn-point found - spawn a random item in it
-            int itemIndex = Random.Range(0, itemArray.Count - 1);
+            Debug.Log("Count " + itemArray.Count);
+            int itemIndex = UnstupidRandom.Range(0, itemArray.Count - 1);
 
             GameObject itemPrefab = itemArray[itemIndex];
+
+            Debug.Log(itemIndex);
+
             Mesh itemPrefabMesh = itemPrefab.GetComponent<MeshFilter>().sharedMesh;
 
             Vector3 spawnPosition = enemySpawns[itemSpawnIndex].spawnTransform.position;

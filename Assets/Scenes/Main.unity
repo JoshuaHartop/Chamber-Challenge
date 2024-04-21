@@ -2506,6 +2506,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactionIndicatorElementName: interaction-indicator
+  _messageContainerElementName: message-container
+  _hudMessageStyleClassName: hud-message
 --- !u!1 &737835439
 GameObject:
   m_ObjectHideFlags: 0
@@ -3129,6 +3131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemArray:
   - {fileID: 4400293862817561789, guid: baaa425331ee20342a9350a73e3a08bc, type: 3}
+  - {fileID: 2803263336884730033, guid: 7d0dd27747bf5834e94051f592bdcbeb, type: 3}
   playerSpawns:
   - spawnTransform: {fileID: 1317189429}
     isOccupied: 0

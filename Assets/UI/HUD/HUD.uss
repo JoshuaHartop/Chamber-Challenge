@@ -3,3 +3,24 @@ VisualElement {
 
 #interaction-indicator {
 }
+
+.hud-message {
+    align-self: stretch;
+    visibility: visible;
+    font-size: 50px;
+    -unity-text-align: middle-center;
+    -unity-font: url('project://database/Assets/Fonts/Retrocompute.ttf?fileID=12800000&guid=e6f8f156c460e734cbbe7d8b1a1cbbdb&type=3#Retrocompute');
+    -unity-font-definition: url('project://database/Assets/Fonts/Retrocompute%20SDF.asset?fileID=11400000&guid=5f9a1de9182514f4caf98d29a6246bd5&type=2#Retrocompute SDF');
+    color: rgb(255, 255, 255);
+    -unity-font-style: normal;
+    -unity-text-outline-width: 0;
+    -unity-text-outline-color: rgba(0, 0, 0, 0);
+    flex-grow: 0;
+}
+
+.hud-overlay {
+    padding-top: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+}
